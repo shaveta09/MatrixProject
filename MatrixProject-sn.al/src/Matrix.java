@@ -114,6 +114,19 @@ import java.util.Scanner;
             	  if(chosen == 2)
             		  scalarmult(matrix2, row2, column2);
                }
+                       
+               if(option == 6)
+               {
+            		  add(matrix1, matrix2, row1, column1);
+               }
+               if(option == 7)
+               {
+            		  sub(matrix1, matrix2, row1, column1);
+               }
+               if(option == 8)
+               {
+            		  mult(matrix1, matrix2, row1, column1);
+               } 
           }
           
           public static void scalarmult(int[][] matrix, int rows, int columns)
@@ -133,6 +146,71 @@ import java.util.Scanner;
                   System.out.println();
               }
           }
-           
+                
+          public static void add(int[][] matrix1, int[][] matrix2, int rows, int columns)
+          {
+                   int add[][] = new int[rows][columns];  
+                   for(int i = 0; i < rows; i++)
+                   {
+                       for(int j = 0; j < columns; j++)
+                       { 
+                           add[i][j] = matrix1[i][j] + matrix2[i][j];
+                        }
+                    }
+                    
+                   for(int i = 0; i < rows; i++)
+                   {
+                     for(int j = 0; j < columns; j++)
+                     {
+                         System.out.print(add[i][j] + " ");
+                     }
+                     System.out.println(); 
+                   }
+                   System.out.println("Is the added result of the two matrices.");
+          }  
+                
+          public static void sub(int[][] matrix1, int[][] matrix2,  int rows, int columns)
+          {
+                   int sub[][] = new int[rows][columns];  
+                   for(int i = 0; i < rows; i++)
+                   {
+                       for(int j = 0; j < columns; j++)
+                       { 
+                           sub[i][j] = matrix1[i][j] - matrix2[i][j];
+                        }
+                    }
+                    
+                   for(int i = 0; i < rows; i++)
+                   {
+                     for(int j = 0; j < columns; j++)
+                     {
+                         System.out.print(sub[i][j] + " ");
+                     }
+                     System.out.println(); 
+                   }
+                   System.out.println("Is the subtracted result of the two matrices.");
+          }
+                
+          public static void mult(int[][] matrix1, int[][] matrix2, int rows, int columns)
+          {
+                   int mult[][] = new int[rows][columns];  
+                   for(int i = 0; i < rows; i++)
+                   {
+                       for(int j = 0; j < columns; j++)
+                       { 
+                           mult[i][j] = matrix1[i][j] * matrix2[i][j];
+                        }
+                    }
+                    
+                   for(int i = 0; i < rows; i++)
+                   {
+                     for(int j = 0; j < columns; j++)
+                     {
+                         System.out.print(mult[i][j] + " ");
+                     }
+                     System.out.println(); 
+                   }
+                   System.out.println("Is the multiplied result of the two matrices.");
+          }
         } 
 
