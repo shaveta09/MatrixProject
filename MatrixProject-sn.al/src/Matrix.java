@@ -170,6 +170,15 @@ import java.util.Scanner;
         		  int determinant = diag1 - diag2;
         		  System.out.println("determinant: " + determinant);
         	  }
+        	  if(matrix.length == 3 && matrix[0].length == 3)
+        	  {
+        		  int p1 = matrix[0][0] * ((matrix[1][1]*matrix[2][2]) - (matrix[2][1]*matrix[1][2]));
+        		  int p2 = matrix[0][1] * ((matrix[1][0]*matrix[2][2]) - (matrix[2][0]*matrix[1][2]));
+        		  int p3 = matrix[0][2] * ((matrix[1][0]*matrix[2][1]) - (matrix[2][0]*matrix[1][1]));
+        		  int determinant = p1 - p2 + p3;
+        		  System.out.println("determinant: " + determinant);
+        	  }
+        	  
           }
           
           public static void add(int[][] matrix1, int[][] matrix2, int rows, int columns)
