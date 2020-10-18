@@ -86,7 +86,7 @@ import java.util.Scanner;
 //               {
                      System.out.println("What would you like to do?");
                      System.out.println("1. Scalar Multiplication");
-                     System.out.println("2. Determinant");
+                     System.out.println("2. Determinant (only for 2x2 or 3x3 matrices)");
                      System.out.println("3. Transpose");
                      System.out.println("4. Inverse");
                      System.out.println("5. Row-reduced Echelon Form of Augmented Matrix");
@@ -113,6 +113,20 @@ import java.util.Scanner;
             		  scalarmult(matrix1, row1, column1);
             	  if(chosen == 2)
             		  scalarmult(matrix2, row2, column2);
+               }
+               if(option == 2)
+               {
+            	  if(matrix2.length != 0 && matrix2[0].length != 0)
+            	  {
+            		  System.out.println("Pick a matrix.");
+            		  int chosen = scan.nextInt();
+            		  if(chosen == 1)
+            			  deter(matrix1);
+            		  if(chosen == 2)
+            			  deter(matrix2);
+            	  }
+            	  else 
+            		  deter(matrix1);
                }
                        
                if(option == 6)
@@ -146,7 +160,18 @@ import java.util.Scanner;
                   System.out.println();
               }
           }
-                
+          
+          public static void deter(int[][] matrix)
+          {
+        	  if(matrix.length == 2 && matrix[0].length == 2)
+        	  {
+        		  int diag1 = matrix[0][0] * matrix[1][1];
+        		  int diag2 = matrix[0][1] * matrix[1][0];
+        		  int determinant = diag1 - diag2;
+        		  System.out.println("determinant: " + determinant);
+        	  }
+          }
+          
           public static void add(int[][] matrix1, int[][] matrix2, int rows, int columns)
           {
                    int add[][] = new int[rows][columns];  
