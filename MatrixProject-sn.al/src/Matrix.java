@@ -128,7 +128,10 @@ import java.util.Scanner;
             	  else 
             		  deter(matrix1);
                }
-                       
+               if(option == 3)
+               {
+            	   trans(matrix1, row1, column1);
+               }
                if(option == 6)
                {
             		  add(matrix1, matrix2, row1, column1);
@@ -179,6 +182,18 @@ import java.util.Scanner;
         		  System.out.println("determinant: " + determinant);
         	  }
         	  
+          }
+          
+          public static void trans(int[][] matrix, int rows, int columns)
+          {
+        	  for (int i = 0; i < rows; i++) 
+              {
+                  for(int j = 0; j < columns; j++) 
+                  {
+                      System.out.print(matrix[j][i] + " ");
+                  }
+                  System.out.println();
+              }
           }
           
           public static void add(int[][] matrix1, int[][] matrix2, int rows, int columns)
