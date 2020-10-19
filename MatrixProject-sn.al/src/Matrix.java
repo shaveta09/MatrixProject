@@ -186,6 +186,9 @@ import java.util.Scanner;
           
           public static void trans(int[][] matrix, int rows, int columns)
           {
+        	  int temp = rows;
+        	  rows = columns;
+        	  columns = temp;
         	  for (int i = 0; i < rows; i++) 
               {
                   for(int j = 0; j < columns; j++) 
