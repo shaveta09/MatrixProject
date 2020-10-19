@@ -140,6 +140,8 @@ import java.util.Scanner;
              	  else 
              		  trans(matrix1, row1, column1);
                }
+               if(option == 5)
+            	   rowred(matrix1,row1,column1);
                if(option == 6) // addition (only with 2 matrices)
                {
             		  add(matrix1, matrix2, row1, column1);
@@ -153,6 +155,10 @@ import java.util.Scanner;
             		  mult(matrix1, matrix2, row1, column1);
                } 
           }
+          
+           
+           
+           
           
           /* SCALAR MULTIPLCATION METHOD */
           public static void scalarmult(int[][] matrix, int rows, int columns)
@@ -211,6 +217,70 @@ import java.util.Scanner;
                   }
                   System.out.println();
               }
+          }
+          
+          /* ROW REDUCED ECHELON FORM METHOD */
+          public static void rowred(int[][] matrix, int rows, int columns)
+          {
+      		 int lead = 0;
+      		 int a = 0;
+      		 for(int i = 0; i < rows; i++)
+      		 {
+      			 if(columns <= lead)
+      				 break;
+      			 a = i;
+      			 while(matrix[a][lead] == 0)
+      			 {
+      				 a++;
+      				 if(rows == a)
+      				 {
+      					 a = i;
+      					 lead++;
+      					 if(columns == lead)
+      						 break;
+      				 }
+      			 }
+      			 matrix = swap(matrix, a, i);
+      			 System.out.println("hello" + matrix[i][lead]);
+      			 if(matrix[i][lead] > 0)
+      			 {
+      				 int bot = matrix[i][lead];
+      				 for(int b = 0; b < columns; b++)
+      				 {
+      					 matrix[i][b] *= 1/bot;
+      				 }
+//      					 matrix[i][b] *= (1/matrix[i][lead]);
+      			 }
+      			 for(int k = 0; k < rows; k ++)
+      			 {
+      				 //rowAddScale
+      				 for(int b = 0; b < columns; b++)
+      					 matrix[i][b] += (matrix[a][b]*((-1)*matrix[a][lead]));
+      			 }
+      			 lead++;
+      		 }
+      		 
+      		 //printing matrix
+      		for (int f = 0; f < rows; f++) 
+            {
+                for(int g = 0; g < columns; g++) 
+                {
+                    System.out.print((matrix[f][g]) + " ");
+                }
+                System.out.println();
+            }
+          }
+          public static int[][] swap(int[][] matrix, int index1, int index2)
+          {
+        	  int columns = matrix[0].length;
+        	  int temp;
+        	  for(int i = 0; i < columns; i++)
+        	  {
+        		  temp = matrix[index2][i];
+        		  matrix[index2][i] = matrix[index1][i];
+        		  matrix[index1][i] = temp;
+        	  }
+        	  return matrix;
           }
           
           /* ADDTION METHOD (for 2 matrices) */
