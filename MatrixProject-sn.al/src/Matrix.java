@@ -154,10 +154,29 @@ import java.util.Scanner;
                {
             		  mult(matrix1, matrix2, row1, column1);
                } 
+               printMatrix(matrix1, row1, column1);
           }
           
            
-           
+          public static void printMatrix(int[][] matrix, int rows, int columns) {
+        	    
+        	    int[] colWidths = new int[columns];
+        	    for (int r = 0; r < rows; r++) {
+        	        for (int c = 0; c < columns; c++) {
+        	            // gets length/#of digits for each number in each column
+        	        	int width = String.valueOf(matrix[r][c]).length();
+        	            // finds which number in column has most digits by finding biggest number
+        	            colWidths[c] = Math.max(colWidths[c], width);
+        	        }
+        	    }
+        	    for (int r = 0; r < rows; r++) {
+        	    	for (int c = 0; c < columns; c++) {
+        	            // p1: % formatters, p2: spaces in front of each column, p3: full row, p4: moves to new line or adds space
+        	    		String fmt = String.format("%s%%%dd%s", "", colWidths[c], c == columns-1 ? "%n" : "   ");
+        	            System.out.printf(fmt, matrix[r][c]);
+        	        }
+        	    }
+        	} 
            
           
           /* SCALAR MULTIPLCATION METHOD */
@@ -177,6 +196,7 @@ import java.util.Scanner;
                   }
                   System.out.println();
               }
+              System.out.println("-----------------------");
           }
           
           /* DETERMINANT METHOD (only for 2x2 and 3x3) */
