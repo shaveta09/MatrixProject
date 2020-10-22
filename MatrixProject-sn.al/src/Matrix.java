@@ -8,7 +8,7 @@ import java.util.Scanner;
                System.out.println("Welcome to the Matrix program!");  
                Scanner scan = new Scanner(System.in); 
                /* USER CREATES MATRICES */  
-               System.out.println("How many matrices would you like to create?");
+               System.out.println("How many matrices would you like to create? (2 Max)");
                int matrices = scan.nextInt();
                System.out.println("---");
                
@@ -39,14 +39,7 @@ import java.util.Scanner;
                
                // printing matrix 1
                System.out.println("This matrix is:");
-               for (int i = 0; i < row1; i++) 
-               {
-            	   for(int j = 0; j < column1; j++) 
-                   {
-            		   System.out.print(matrix1[i][j] + " ");
-                   }
-                   System.out.println();
-               }
+               alignMatrix(matrix1, row1, column1);
                
                System.out.println("---");
                
@@ -79,19 +72,12 @@ import java.util.Scanner;
                  
                  // printing matrix 2
                  System.out.println("This matrix is:");
-                 for (int i = 0; i < row2; i++) 
-                 {
-                     for(int j = 0; j < column2; j++) 
-                     {
-                         System.out.print(matrix2[i][j] + " ");
-                     }
-                     System.out.println();
-                 }
+                 alignMatrix(matrix2, row2, column2);
                }
                System.out.println("---");
                
                // user chooses operation
-               System.out.println("What would you like to do?");
+               System.out.println("What would you like to do? (Type the option number)");
                System.out.println("1. Scalar Multiplication");
                System.out.println("2. Determinant (only for 2x2 or 3x3 matrices)");
                System.out.println("3. Transpose");
@@ -105,12 +91,17 @@ import java.util.Scanner;
                /* METHODS CALLS based on user option */
                if(option == 1) // scalar multiplication
                {
-            	  System.out.println("Pick a matrix.");
-            	  int chosen = scan.nextInt();
-            	  if(chosen == 1)
-            		  scalarmult(matrix1, row1, column1);
-            	  if(chosen == 2)
-            		  scalarmult(matrix2, row2, column2);
+            	   if(matrix2.length != 0 && matrix2[0].length != 0)
+             	  {
+             		  System.out.println("Pick a matrix.");
+             		  int chosen = scan.nextInt();
+             		  if(chosen == 1)
+             			  scalarmult(matrix1, row1, column1);
+             		  if(chosen == 2)
+             			  scalarmult(matrix2, row2, column2);
+             	  }
+             	  else 
+             		  scalarmult(matrix1, row1, column1);
                }
                if(option == 2) // determinant (only for 2x2 and 3x3)
                {
@@ -153,32 +144,29 @@ import java.util.Scanner;
                if(option == 8) // multiplication (only with 2 matrices)
                {
             		  mult(matrix1, matrix2, row1, column1);
-               } 
-               printMatrix(matrix1, row1, column1);
+               }
           }
           
+          /* ALIGNMENT METHOD */ 
+          public static void alignMatrix(int[][] matrix, int rows, int columns) {
+        	  int[] colWidths = new int[columns];
+        	  for (int r = 0; r < rows; r++) {
+        		  for (int c = 0; c < columns; c++) {
+        			  // gets length/#of digits for each number in each column
+        	          int width = String.valueOf(matrix[r][c]).length();
+        	          // finds which number in column has most digits by finding biggest number
+        	          colWidths[c] = Math.max(colWidths[c], width);
+        	      }
+        	  }
+        	  for (int r = 0; r < rows; r++) {
+        		  for (int c = 0; c < columns; c++) {
+        			  // p1: % formatters, p2: spaces in front of each column, p3: full row, p4: moves to new line or adds space
+        			  String fmt = String.format("%s%%%dd%s", "", colWidths[c], c == columns-1 ? "%n" : "   ");
+        	          System.out.printf(fmt, matrix[r][c]);
+        	      }
+        	  }
+          } 
            
-          public static void printMatrix(int[][] matrix, int rows, int columns) {
-        	    
-        	    int[] colWidths = new int[columns];
-        	    for (int r = 0; r < rows; r++) {
-        	        for (int c = 0; c < columns; c++) {
-        	            // gets length/#of digits for each number in each column
-        	        	int width = String.valueOf(matrix[r][c]).length();
-        	            // finds which number in column has most digits by finding biggest number
-        	            colWidths[c] = Math.max(colWidths[c], width);
-        	        }
-        	    }
-        	    for (int r = 0; r < rows; r++) {
-        	    	for (int c = 0; c < columns; c++) {
-        	            // p1: % formatters, p2: spaces in front of each column, p3: full row, p4: moves to new line or adds space
-        	    		String fmt = String.format("%s%%%dd%s", "", colWidths[c], c == columns-1 ? "%n" : "   ");
-        	            System.out.printf(fmt, matrix[r][c]);
-        	        }
-        	    }
-        	} 
-           
-          
           /* SCALAR MULTIPLCATION METHOD */
           public static void scalarmult(int[][] matrix, int rows, int columns)
           {
@@ -186,17 +174,13 @@ import java.util.Scanner;
         	  // asks constant
         	  System.out.println("Constant to multiply with?");
         	  int multiple = scan.nextInt();
+        	  for(int i = 0; i < rows; i++)
+        	  {
+        		  for(int j = 0; j < columns; j++)
+        			  matrix[i][j] *= multiple;
+        	  }
         	  // prints new matrix
-        	  System.out.println("Your new matrix:");
-              for (int i = 0; i < rows; i++) 
-              {
-                  for(int j = 0; j < columns; j++) 
-                  {
-                      System.out.print((matrix[i][j]*multiple) + " ");
-                  }
-                  System.out.println();
-              }
-              System.out.println("-----------------------");
+        	  alignMatrix(matrix, rows, columns);
           }
           
           /* DETERMINANT METHOD (only for 2x2 and 3x3) */
@@ -225,18 +209,17 @@ import java.util.Scanner;
           /* TRANSPOSE METHOD */
           public static void trans(int[][] matrix, int rows, int columns)
           {
+        	  int[][] result = new int[columns][rows];
         	  int temp = rows;
         	  rows = columns;
         	  columns = temp;
         	  System.out.println("Your new matrix:");
-        	  for (int i = 0; i < rows; i++) 
-              {
-                  for(int j = 0; j < columns; j++) 
-                  {
-                      System.out.print(matrix[j][i] + " ");
-                  }
-                  System.out.println();
-              }
+        	  for(int i = 0; i < rows; i++)
+        	  {
+        		  for(int j = 0; j < columns; j++)
+        			  result[i][j] = matrix[j][i];
+        	  }
+        	  alignMatrix(result, result.length, result[0].length);
           }
           
           /* ROW REDUCED ECHELON FORM METHOD */
@@ -269,7 +252,7 @@ import java.util.Scanner;
       				 {
       					 matrix[i][b] *= 1/bot;
       				 }
-//      					 matrix[i][b] *= (1/matrix[i][lead]);
+        		//			 matrix[i][b] *= (1/matrix[i][lead]);
       			 }
       			 for(int k = 0; k < rows; k ++)
       			 {
@@ -317,14 +300,7 @@ import java.util.Scanner;
                    }
                    // printing new matrix 
                    System.out.println("Your new matrix: ");
-                   for(int i = 0; i < rows; i++)
-                   {
-                     for(int j = 0; j < columns; j++)
-                     {
-                         System.out.print(add[i][j] + " ");
-                     }
-                     System.out.println(); 
-                   }
+                   alignMatrix(add, add.length, add[0].length);
           }  
           
           /* SUBTRACTION METHOD (for 2 matrices) */
@@ -341,14 +317,7 @@ import java.util.Scanner;
                     }
                    // printing new matrix
                    System.out.println("Your new matrix: ");
-                   for(int i = 0; i < rows; i++)
-                   {
-                     for(int j = 0; j < columns; j++)
-                     {
-                         System.out.print(sub[i][j] + " ");
-                     }
-                     System.out.println(); 
-                   }
+                   alignMatrix(sub, sub.length, sub[0].length);
           }
           
           /* MULTIPLCATION METHOD (for 2 matrices) */
@@ -365,15 +334,7 @@ import java.util.Scanner;
                    }
                    // printing new matrix
                    System.out.println("Your new matrix: ");
-                   for(int i = 0; i < rows; i++)
-                   {
-                     for(int j = 0; j < columns; j++)
-                     {
-                         System.out.print(mult[i][j] + " ");
-                     }
-                     System.out.println(); 
-                   }
+                   alignMatrix(mult, mult.length, mult[0].length);
          }
-        
-        } 
+     } 
 // end of class
