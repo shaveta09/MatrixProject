@@ -349,13 +349,13 @@ import java.util.Scanner;
               public static double deter2(int[][] matrix) {
 		double len = matrix.length;
 		if (len == 2) { //if matrix is 2x2
-			int det = (matrix[0][0])*(matrix[1][1]) - (matrix[0][1])*(matrix[1][0]);
+			int det = (matrix[0][0]) * (matrix[1][1]) - (matrix[0][1]) * (matrix[1][0]);
 			return det;
 		}
 		else { //for any square matrix larger than 2x2
 			double det = 0; 
 			for (int i = 0; i < matrix.length; i++) { 
-				det += Math.pow(-1,i)*matrix[0][i]*deter2(sub(matrix,0,i));
+				det += Math.pow(-1,i) * matrix[0][i] * deter2(sub(matrix,0,i));
 			}
 			return det;
 		}
@@ -374,23 +374,23 @@ import java.util.Scanner;
               public static int[][] sub(int[][] matrix, int m, int n) {
 		int[][] submatrix = new int[matrix.length - 1][matrix.length - 1];
 		
-		for (int j = 0; j < m; j++) { 
-			for (int k = 0; k < n; k++) { 
-				submatrix[j][k] = matrix[j][k]; 
-			} 
-			for (int k = submatrix.length; k > n; k--) {
-				submatrix[j][k-1] = matrix[j][k]; 
-			} 
-		} 
-		
-		for (int j = submatrix.length; j > m; j--) {
-			for (int k = 0; k < n; k++) { 
-				submatrix[j-1][k] = matrix[j][k]; 
-			} 
-			for (int k = submatrix.length; k > n; k--) {
-				submatrix[j-1][k-1] = matrix[j][k]; 
-			} 
-		} 
+    		for (int i = 0; i < m; i++) { 
+    			for (int j = 0; j < n; j++) { 
+    				submatrix[i][j] = matrix[i][j]; 
+    			} 
+    			for (int j = submatrix.length; j > n; j--) {
+    				submatrix[i][j-1] = matrix[i][j]; 
+    			} 
+    		} 
+    		
+    		for (int i = submatrix.length; i > m; i--) {
+    			for (int j = 0; j < n; j++) { 
+    				submatrix[i-1][j] = matrix[i][j]; 
+    			} 
+    			for (int j = submatrix.length; j > n; j--) { 
+    				submatrix[i-1][j-1] = matrix[i][j]; 
+    			} 
+    		} 
 		return submatrix; 
               }
               /* INVERSE METHOD (using adjoint method) */
@@ -406,13 +406,13 @@ import java.util.Scanner;
 			inverse[0][0] = matrix[1][1]/det;
 			inverse[0][1] = -matrix[0][1]/det;
 			inverse[1][0] = -matrix[1][0]/det;
-			inverse[1][1] = matrix[0][0]/det + 0.0;
+			inverse[1][1] = matrix[0][0]/det;
 		}
 		else {
 			double[][] cofactor = cofactors(matrix); 
 			for (int i = 0; i < inverse.length; i++) { 
 				for (int j = 0; j < inverse.length; j++) { 
-					inverse[i][j] = cofactor[j][i]/det + 0.0; //adjoint method
+					inverse[i][j] = cofactor[j][i]/det; //adjoint method
 				}
 			}
 		}
