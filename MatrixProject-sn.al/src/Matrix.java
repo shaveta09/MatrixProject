@@ -131,6 +131,15 @@ import java.util.Scanner;
              	  else 
              		  trans(matrix1, row1, column1);
                }
+                   if(option == 4) // inverse
+                   {
+                          System.out.println("Pick a matrix.");
+                          int chosen = scan.nextInt();
+                          if(chosen == 1)
+                              inverse(matrix1, row1, column1);
+                          if(chosen == 2)
+                              inverse(matrix2, row2, column2);
+                   }
                if(option == 5)
             	   rowred(matrix1,row1,column1);
                if(option == 6) // addition (only with 2 matrices)
@@ -394,9 +403,9 @@ import java.util.Scanner;
 			inverse[0][0] = 1/matrix[0][0]; 
 		}
 		else if (matrix.length == 2) { //if matrix 2x2
-			inverse[0][0] = matrix[1][1]/det + 0.0;
-			inverse[0][1] = -matrix[0][1]/det + 0.0;
-			inverse[1][0] = -matrix[1][0]/det + 0.0;
+			inverse[0][0] = matrix[1][1]/det;
+			inverse[0][1] = -matrix[0][1]/det;
+			inverse[1][0] = -matrix[1][0]/det;
 			inverse[1][1] = matrix[0][0]/det + 0.0;
 		}
 		else {
