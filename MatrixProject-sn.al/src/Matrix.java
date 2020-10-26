@@ -336,5 +336,87 @@ import java.util.Scanner;
                    System.out.println("Your new matrix: ");
                    alignMatrix(mult, mult.length, mult[0].length);
          }
+              /* SECOND DETERMINANT METHOD (adjusts for double needed in inverse method) */
+              public static double deter2(int[][] matrix) {
+		double len = matrix.length;
+		if (len == 2) { //if matrix is 2x2
+			int det = (matrix[0][0])*(matrix[1][1]) - (matrix[0][1])*(matrix[1][0]);
+			return det;
+		}
+		else { //for any square matrix larger than 2x2
+			double det = 0; 
+			for (int i = 0; i < matrix.length; i++) { 
+				det += Math.pow(-1,i)*matrix[0][i]*deter2(sub(matrix,0,i));
+			}
+			return det;
+		}
+	      }
+	      /* COFACTOR METHOD */
+              	public static double[][] cofactors(int[][] matrix) {
+		double[][] cofactors = new double[matrix.length][matrix.length];
+		for (int i = 0; i < matrix.length; i++) {
+			for (int j = 0; j < matrix.length; j++) {
+				cofactors[i][j] = Math.pow(-1, i + j) * deter2(sub(matrix, i, j));
+			}
+		}
+		return cofactors;
+              }
+              /* SUBMATRIX METHOD */
+              public static int[][] sub(int[][] matrix, int m, int n) {
+		int[][] submatrix = new int[matrix.length - 1][matrix.length - 1];
+		
+		for (int j = 0; j < m; j++) { 
+			for (int k = 0; k < n; k++) { 
+				submatrix[j][k] = matrix[j][k]; 
+			} 
+			for (int k = submatrix.length; k > n; k--) {
+				submatrix[j][k-1] = matrix[j][k]; 
+			} 
+		} 
+		
+		for (int j = submatrix.length; j > m; j--) {
+			for (int k = 0; k < n; k++) { 
+				submatrix[j-1][k] = matrix[j][k]; 
+			} 
+			for (int k = submatrix.length; k > n; k--) {
+				submatrix[j-1][k-1] = matrix[j][k]; 
+			} 
+		} 
+		return submatrix; 
+              }
+              /* INVERSE METHOD (using adjoint method) */
+              public static double[][] inverse(int[][] matrix, int rows, int columns) { 
+		double[][] inverse = new double[matrix.length][matrix.length]; 
+			
+		double det = deter2(matrix); 
+		
+		if (matrix.length == 1) { //if matrix 1x1
+			inverse[0][0] = 1/matrix[0][0]; 
+		}
+		else if (matrix.length == 2) { //if matrix 2x2
+			inverse[0][0] = matrix[1][1]/det + 0.0;
+			inverse[0][1] = -matrix[0][1]/det + 0.0;
+			inverse[1][0] = -matrix[1][0]/det + 0.0;
+			inverse[1][1] = matrix[0][0]/det + 0.0;
+		}
+		else {
+			double[][] cofactor = cofactors(matrix); 
+			for (int i = 0; i < inverse.length; i++) { 
+				for (int j = 0; j < inverse.length; j++) { 
+					inverse[i][j] = cofactor[j][i]/det + 0.0; //adjoint method
+				}
+			}
+		}
+		System.out.println("Your new matrix:");
+                for (int i = 0; i < rows; i++) 
+                {
+                    for(int j = 0; j < columns; j++) 
+                    {
+                        System.out.print((inverse[i][j]) + " ");
+                    }
+                    System.out.println();
+                }
+                return inverse;
+	      }
      } 
 // end of class
