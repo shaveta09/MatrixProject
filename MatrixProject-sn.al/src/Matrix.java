@@ -359,33 +359,20 @@ public class Matrix
 	/* SECOND DETERMINANT METHOD (adjusts for double needed in inverse method) */
 	public static double deter2(int[][] matrix) {
 		double len = matrix.length;
-		if (len == 2) { //if matrix is 2x2
+		if (len == 2) { // if matrix is 2x2
 			int det = (matrix[0][0]) * (matrix[1][1]) - (matrix[0][1]) * (matrix[1][0]);
 			return det;
-		}
-<<<<<<< HEAD
-        	else { //for any square matrix larger than 2x2
-        		double det = 0; 
-        		for (int i = 0; i < matrix.length; i++) { 
-        			det += Math.pow(-1,i)*matrix[0][i]*deter2(sub(matrix,0,i));
-        		}
-        		return det;
-        	}
-	}
-	/* COFACTOR METHOD */
-	public static double[][] cofactors(int[][] matrix) {
-=======
-		else { //for any square matrix larger than 2x2
-			double det = 0; 
-			for (int i = 0; i < matrix.length; i++) { 
-				det += Math.pow(-1,i) * matrix[0][i] * deter2(sub(matrix,0,i));
+		} else { // for any square matrix larger than 2x2
+			double det = 0;
+			for (int i = 0; i < matrix.length; i++) {
+				det += Math.pow(-1, i) * matrix[0][i] * deter2(sub(matrix, 0, i));
 			}
 			return det;
 		}
-	      }
-	      /* COFACTOR METHOD */
-              	public static double[][] cofactors(int[][] matrix) {
->>>>>>> 2e3cc0fc92833f3b5c3448f52635290d73cd08ed
+	}
+	
+	/* COFACTOR METHOD */
+	public static double[][] cofactors(int[][] matrix) {
 		double[][] cofactors = new double[matrix.length][matrix.length];
 		for (int i = 0; i < matrix.length; i++) {
 			for (int j = 0; j < matrix.length; j++) {
@@ -394,48 +381,29 @@ public class Matrix
 		}
 		return cofactors;
 	}
+	
 	/* SUBMATRIX METHOD */
 	public static int[][] sub(int[][] matrix, int m, int n) {
 		int[][] submatrix = new int[matrix.length - 1][matrix.length - 1];
-<<<<<<< HEAD
-		for (int j = 0; j < m; j++) { 
-			for (int k = 0; k < n; k++) { 
-				submatrix[j][k] = matrix[j][k]; 
-			} 
-			for (int k = submatrix.length; k > n; k--) {
-				submatrix[j][k-1] = matrix[j][k]; 
-			} 
-		} 
-		
-		for (int j = submatrix.length; j > m; j--) {
-			for (int k = 0; k < n; k++) { 
-				submatrix[j-1][k] = matrix[j][k]; 
-			} 
-			for (int k = submatrix.length; k > n; k--) {
-				submatrix[j-1][k-1] = matrix[j][k]; 
-			} 
-		} 
-=======
-		
-    		for (int i = 0; i < m; i++) { 
-    			for (int j = 0; j < n; j++) { 
-    				submatrix[i][j] = matrix[i][j]; 
-    			} 
-    			for (int j = submatrix.length; j > n; j--) {
-    				submatrix[i][j-1] = matrix[i][j]; 
-    			} 
-    		} 
-    		
-    		for (int i = submatrix.length; i > m; i--) {
-    			for (int j = 0; j < n; j++) { 
-    				submatrix[i-1][j] = matrix[i][j]; 
-    			} 
-    			for (int j = submatrix.length; j > n; j--) { 
-    				submatrix[i-1][j-1] = matrix[i][j]; 
-    			} 
-    		} 
->>>>>>> 2e3cc0fc92833f3b5c3448f52635290d73cd08ed
-		return submatrix; 
+
+		for (int i = 0; i < m; i++) {
+			for (int j = 0; j < n; j++) {
+				submatrix[i][j] = matrix[i][j];
+			}
+			for (int j = submatrix.length; j > n; j--) {
+				submatrix[i][j - 1] = matrix[i][j];
+			}
+		}
+
+		for (int i = submatrix.length; i > m; i--) {
+			for (int j = 0; j < n; j++) {
+				submatrix[i - 1][j] = matrix[i][j];
+			}
+			for (int j = submatrix.length; j > n; j--) {
+				submatrix[i - 1][j - 1] = matrix[i][j];
+			}
+		}
+		return submatrix;
 	}
 	/* INVERSE METHOD (using adjoint method) */
 	public static void inverse(int[][] matrix, int rows, int columns) { 
