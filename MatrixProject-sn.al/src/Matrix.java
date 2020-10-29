@@ -427,5 +427,94 @@ import java.util.Scanner;
                 }
                 return inverse;
 	      }
+//gaussian
+public static void gaussian(int matrix[][],/* int index[a] */ int rows, int columns) 
+
+{
+    int a = matrix.length;
+    int matrixIndex[] = new int[a];
+    int n = matrixIndex.length;
+    
+    int c[] = new int[n];
+
+    for (int i=0; i<n; ++i) 
+        
+        matrixIndex[i] = i;
+
+    for (int i=0; i<n; ++i) 
+    
+    {
+        
+        int c1 = 0;
+        
+        for (int j=0; j<n; ++j) 
+        
+        {
+            
+            int c0 = Math.abs(matrix[i][j]);
+            
+            if (c0 > c1) c1 = c0;
+        
+        }
+        
+        c[i] = c1;
+    
+    }
+
+
+    int k = 0;
+    
+    for (int j=0; j<n-1; ++j) 
+    
+    {
+        
+        int pi1 = 0;
+        
+        for (int i=j; i<n; ++i) 
+        
+        {
+            
+            int pi0 = Math.abs(matrix[matrixIndex[i]][j]);
+            
+            pi0 /= c[matrixIndex[i]];
+            
+            if (pi0 > pi1) 
+            
+            {
+                
+                pi1 = pi0;
+                
+                k = i;
+            
+            }
+        
+        }
+
+
+        int itmp = matrixIndex[j];
+        
+        matrixIndex[j] = matrixIndex[k];
+        
+        matrixIndex[k] = itmp;
+    	System.out.println("Your new matrix:");
+        for (int i=j+1; i<n; ++i) 	
+        
+        {
+            
+            int pj = matrix[matrixIndex[i]][j]/matrix[matrixIndex[j]][j];
+
+
+            matrix[matrixIndex[i]][j] = pj;
+            for (int l=j+1; l<n; ++l)
+                
+                System.out.print((matrix[matrixIndex[i]][l] -= pj*matrix[matrixIndex[j]][l]) + " ");
+        
+        }
+        System.out.println();
+    }
+}
+	    
      } 
+
+
 // end of class
