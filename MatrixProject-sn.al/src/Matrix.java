@@ -132,7 +132,7 @@ public class Matrix {
 				inverse(matrix1, row1, column1);
 		}
 		if (option == 5)
-			rowred(matrix1, row1, column1);
+			gauss(matrix1);
 		if (option == 6) // addition (only with 2 matrices)
 			add(matrix1, matrix2, row1, column1);
 		if (option == 7) // subtraction (only with 2 matrices)
@@ -363,7 +363,226 @@ public class Matrix {
 	}
 	
 	/* ROW REDUCED ECHELON FORM METHOD */
-	public static void rowred(int[][] matrix, int rows, int columns) {
+        public static void gauss(int [][] mat)
+	{
+		int[][] id=getId(mat.length);
+		printy(mat,id);
+
+		makeUpper1(mat,id);
+		makeLower1(mat,id);
+		reduce1(mat,id);
+
+		printy(mat,id);
+	}
+	public static int[][] getId(int n)
+	{
+		int[][] id=new int[n][n];
+		for(int i=0; i<n;i++)
+		{
+			for(int j=0;j<n;j++)
+			{
+				if(i==j)
+				{
+					id[i][j]=1;
+				}
+				else
+				{
+					id[i][j]=0;
+				}
+			}
+		}
+		return id;
+	}
+	public static void printy(int[][] mat,int[][] id)
+	{
+		System.out.println("");
+		for(int i=0; i<mat.length;i++)
+		{
+			for(int j=0; j<mat[i].length;j++)
+			{
+				System.out.print(" "+mat[i][j]);
+			}
+			System.out.print("|");
+			for(int j=0; j<id[i].length;j++)
+			{
+				System.out.print(" "+id[i][j]);
+			}
+			System.out.println("");
+		}
+	}
+	public static void makeUpper1(int[][] mat,int[][] id)
+	{
+		while(!isUpper(mat))
+		{
+			for(int h=0; h<mat.length;h++)
+			{
+				for(int i=h; i<mat.length;i++)
+				{
+					if(mat[i][h]!=0)
+					{
+						for(int j=i+1;j<mat.length;j++)
+						{
+							if(mat[j][h]!=0)
+							{
+								int factor=mat[j][h]/mat[i][h];
+								transform(mat[j],mat[i],factor);
+								transform(id[j],id[i],factor);
+							}
+						}
+					}
+				}
+			}
+			if(zeroes(mat))
+			{
+				System.out.println("No Inverse");
+				System.exit(0);
+			}
+			sort(mat,id);	
+		}
+	}
+	public static void transform(int[] rowd, int[] rowo, int factor)
+	{
+		for(int i=0;i<rowd.length;i++)
+		{
+			rowd[i]=rowd[i]-(rowo[i]*factor);
+		}
+	}
+	public static boolean zeroes(int[][] mat)
+	{
+		for(int i=0; i<mat.length;i++)
+		{
+			int count=0;
+			for(int j=0; j<mat[i].length;j++)
+			{
+				if(mat[i][j]==0)
+				{
+					count++;
+					if(count==mat[i].length)
+					{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	public static void sort(int[][] mat,int[][] id)
+	{
+		for(int i=0; i<mat.length-1;i++)
+		{
+			for(int j=0; j<mat.length-1-i;j++)
+			{
+				if(lead(mat[j])>lead(mat[j+1]))
+				{
+					int[] temp=mat[j+1];
+					mat[j+1]=mat[j];
+					mat[j]=temp;
+
+					temp=id[j+1];
+					id[j+1]=id[j];
+					id[j]=temp;
+				}
+			}
+		}
+	}
+        public static int lead(int[] row)
+	{
+		int lead=row.length;
+		for(int i=0; i<row.length;i++)
+		{
+			if(row[i]!=0)
+			{
+				return i;
+			}
+		}
+		return lead;
+	}
+
+        public static boolean isUpper(int[][] mat)
+	{
+		for(int i=0; i<mat.length;i++)
+		{
+			for(int j=0; j<i;j++)
+			{
+				if(mat[i][j]!=0)
+				{
+					return false;
+				}	
+			}
+		}
+		return true;
+	}
+	public static void makeLower1(int[][] mat,int[][] id)
+	{
+		while(!isLower(mat))
+		{
+			for(int h=mat.length-1;h>-1;h--)
+			{
+				for(int i=mat.length-1;i>-1;i--)
+				{
+					if(mat[i][h]!=0)
+					{
+						for(int j=i-1;j>-1;j--)
+						{
+							if(mat[j][h]!=0)
+							{
+								int factor=mat[j][h]/mat[i][h];
+								transform(mat[j],mat[i],factor);
+								transform(id[j],id[i],factor);
+							}
+						}
+					}
+				}
+			}
+			if(zeroes(mat))
+			{
+				System.out.println("No Inverse");
+				System.exit(0);
+			}
+			sort(mat,id);
+		}
+	}
+	public static boolean isLower(int[][] mat)
+	{
+		for(int i=0; i<mat.length;i++)
+		{
+			for(int j=i+1; j<mat[i].length;j++)
+			{
+				if(mat[i][j]!=0)
+				{
+					return false;
+				}	
+			}
+		}
+		return true;
+	}
+	public static void reduce1(int[][] mat,int[][] id)
+	{
+		for(int i=0; i<mat.length;i++)
+		{
+			reduceRow(mat[i],id[i]);
+		}
+	}
+	public static void reduceRow(int[] row,int[] idrow)
+	{
+		for(int i=0;i<row.length;i++)
+		{
+			if(row[i]!=0)
+			{
+				int factor=row[i];
+				for(int j=i;j<row.length;j++)
+				{
+					row[j]=row[j]/factor;
+				}
+				for(int j=0;j<idrow.length;j++)
+				{
+					idrow[j]=idrow[j]/factor;
+				}
+				return;
+			}
+		}
+	}	
+	/* public static void rowred(int[][] matrix, int rows, int columns) {
 		int lead = 0;
 		int a = 0;
 		for (int i = 0; i < rows; i++) {
@@ -414,6 +633,6 @@ public class Matrix {
 			matrix[index1][i] = temp;
 		}
 		return matrix;
-	}
+	} */
 }
 // end of class
