@@ -8,10 +8,10 @@ public class Matrix {
 		/* USER CREATES MATRICES */
 		System.out.println("How many matrices would you like to create? (2 Max)");
 		int matrices = scan.nextInt();
-		System.out.println("---");
+		System.out.println("---------");
 
 		if (matrices == 2)
-			System.out.println("First Matrix:");
+			System.out.println("FIRST MATRIX:");
 		else
 			System.out.println("Your Matrix:");
 
@@ -21,14 +21,14 @@ public class Matrix {
 
 		System.out.println("# of columns?");
 		int column1 = scan.nextInt();
-		System.out.println("---");
+		System.out.println("---------");
 
 		// input integers into matrix 1
 		int[][] matrix1 = new int[row1][column1];
 
 		for (int i = 0; i < row1; i++) {
 			for (int j = 0; j < column1; j++) {
-				System.out.println("Input integer in row[" + (i + 1) + "] column[" + (j + 1) + "]");
+				System.out.println("integer in row[" + (i + 1) + "] column[" + (j + 1) + "]?");
 				matrix1[i][j] = scan.nextInt();
 			}
 		}
@@ -37,13 +37,13 @@ public class Matrix {
 		System.out.println("This matrix is:");
 		alignMatrix(matrix1, row1, column1);
 
-		System.out.println("---");
+		System.out.println("---------");
 
 		// making matrix 2
 		int[][] matrix2 = new int[0][0];
 		int row2 = 0, column2 = 0;
 		if (matrices == 2) {
-			System.out.println("Second Matrix:");
+			System.out.println("SECOND MATRIX:");
 
 			// number of rows and columns in matrix 2
 			System.out.println("# of rows");
@@ -52,14 +52,14 @@ public class Matrix {
 			System.out.println("# of columns");
 			column2 = scan.nextInt();
 
-			System.out.println("---");
+			System.out.println("---------");
 
 			matrix2 = new int[row2][column2];
 
 			for (int i = 0; i < row2; i++) {
 				for (int j = 0; j < column2; j++) {
 					System.out.println(
-							"Input the integer in row[" + (i + 1) + "] column[" + (j + 1) + "] in the second matrix");
+							"integer in row[" + (i + 1) + "] column[" + (j + 1) + "]?");
 					matrix2[i][j] = scan.nextInt();
 				}
 			}
@@ -67,8 +67,8 @@ public class Matrix {
 			// printing matrix 2
 			System.out.println("This matrix is:");
 			alignMatrix(matrix2, row2, column2);
+			System.out.println("---------");
 		}
-		System.out.println("---");
 
 		// user chooses operation
 		System.out.println("What would you like to do? (Type the option number)");
@@ -141,7 +141,7 @@ public class Matrix {
 			mult(matrix1, matrix2, row1, column1);
 	}
 
-	/* ALIGNMENT METHOD */
+	/* ALIGNMENT METHOD (except inverse)*/
 	public static void alignMatrix(int[][] matrix, int rows, int columns) {
 		int[] colWidths = new int[columns];
 		for (int r = 0; r < rows; r++) {
@@ -154,8 +154,7 @@ public class Matrix {
 		}
 		for (int r = 0; r < rows; r++) {
 			for (int c = 0; c < columns; c++) {
-				// p1: % formatters, p2: spaces in front of each column, p3: full row, p4: moves
-				// to new line or adds space
+				// p1: % formatters, p2: spaces in front of each column, p3: full row, p4: moves to new line or adds space
 				String fmt = String.format("%s%%%dd%s", "", colWidths[c], c == columns - 1 ? "%n" : "   ");
 				System.out.printf(fmt, matrix[r][c]);
 			}
@@ -199,14 +198,17 @@ public class Matrix {
 	/* TRANSPOSE METHOD */
 	public static void trans(int[][] matrix, int rows, int columns) {
 		int[][] result = new int[columns][rows];
+		// switches rows and columns
 		int temp = rows;
 		rows = columns;
 		columns = temp;
-		System.out.println("Your new matrix:");
+		// transposes
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++)
 				result[i][j] = matrix[j][i];
 		}
+		// prints matrix
+		System.out.println("Your new matrix:");
 		alignMatrix(result, result.length, result[0].length);
 	}
 
@@ -324,38 +326,35 @@ public class Matrix {
 			}
 		}
 		System.out.println("Your new matrix:");
-//		for (int i = 0; i < rows; i++) 
-//		{
-//			for(int j = 0; j < columns; j++) 
-//			{
-//				System.out.print((inverse[i][j]) + " ");
-//			}
-//			System.out.println();
-//		}
-//		return inverse;
 		alignInverse(inverse, inverse.length, inverse[0].length);
 	}
-
+	/* ALIGNMENT METHOD (for inverse) */
 	public static void alignInverse(double[][] matrix, int rows, int columns) {
-		for (int r = 0; r < rows; r++) {
-	        for (int c = 0; c < columns; c++) {
+		for (int r = 0; r < rows; r++) 
+		{
+	        for (int c = 0; c < columns; c++) 
+	        {
 	        	matrix[r][c] = Math.round(matrix[r][c] * 100.0) / 100.0;
 	        }
 		}
 		
 		int[] lWidths = new int[columns]; // first row
 	    int[] rWidths = new int[columns]; // second row
-	    for (int r = 0; r < rows; r++) {
-	        for (int c = 0; c < columns; c++) {
+	    for (int r = 0; r < rows; r++) 
+	    {
+	        for (int c = 0; c < columns; c++) 
+	        {
 	            String[] parts = String.valueOf(matrix[r][c]).split("\\."); // splits number by decimal point (right vs left side of decimal)
 	            lWidths[c] = Math.max(lWidths[c], parts[0].length());// compares # of digits in left side of decimal
 	            rWidths[c] = Math.max(rWidths[c], parts[1].length());// compares # of digits in right side of decimal
 	        }
 	    }
-	    for (int r = 0; r < rows; r++) {
-	        for (int c = 0; c < columns; c++) {
+	    for (int r = 0; r < rows; r++) 
+	    {
+	        for (int c = 0; c < columns; c++) 
+	        {
 	            String[] parts = String.valueOf(matrix[r][c]).split("\\."); // same as first loop
-	            int lp = lWidths[c] - parts[0].length(); //
+	            int lp = lWidths[c] - parts[0].length(); // left 
 	            int rp = rWidths[c] - parts[1].length();
 	            String fmt = String.format("%s%%%ss%%s.%%s%%%ss%s",c != 0 ? "  " : "", lp == 0 ? "" : lp, rp == 0 ? "" : rp, c < columns - 1 ? "" : "%n");
 	            System.out.printf(fmt, "", parts[0], parts[1], "");
