@@ -250,32 +250,30 @@ public class Matrix {
 	}
 
 	/* MULTIPLCATION METHOD (for 2 matrices) */
-        public static int[][] mult(int[][] matrix1, int[][] matrix2) 
+        public static int[][] mult(int[][] matrix1, int[][] matrix2, int row1, int column1, int row2, int column2) 
 	{
-        	int m1ColLength = matrix1[0].length; 
-        	int m2RowLength = matrix2.length;
+		int matrixrow = matrix1.length;    
+        	int matrixcol = matrix2[0].length;
+		
 		//if not possible
-        	if(m1ColLength != m2RowLength) 
+        	if(column1 != row2)
 			return null; 
-		//else
-        	int mRRowLength = matrix1.length;    
-        	int mRColLength = matrix2[0].length;
 		//creating resultant matrix
-        	int[][] mResult = new int[mRRowLength][mRColLength]; 
+        	int[][] matrixmult = new int[matrixrow][matrixcol]; 
 		//calculations
-        	for(int i = 0; i < mRRowLength; i++) 
+        	for(int i = 0; i < matrixrow; i++) 
 		{         
-            		for(int j = 0; j < mRColLength; j++) 
+            		for(int j = 0; j < matrixcol; j++) 
 			{    
-                		for(int k = 0; k < m1ColLength; k++) 
+                		for(int k = 0; k < column1; k++) 
 				{ 
-                    			mResult[i][j] += matrix1[i][k] * matrix2[k][j];
+                    			matrixmult[i][j] += matrix1[i][k] * matrix2[k][j];
                	 		}
             		}
        		}
         	System.out.println("Your new matrix: ");
-        	alignMatrix(mResult, mResult.length, mResult[0].length);
-        	return mResult;
+        	alignMatrix(matrixmult, matrixmult.length, matrixmult[0].length);
+        	return matrixmult;
     	}
 
 	//// ALL INVERSE CODE ////
