@@ -1,3 +1,7 @@
+/* by Andy Le and Shaveta Nuvvuri
+ * Period 3
+ */
+
 import java.util.Scanner;
 
 public class Matrix {
@@ -424,7 +428,6 @@ public class Matrix {
 			}
 		}
 
-		System.out.println("Your new matrix:");
 		alignInverse(rre, rre.length, rre[0].length);
 	}
 }
