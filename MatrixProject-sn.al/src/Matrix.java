@@ -144,8 +144,8 @@ public class Matrix {
 			add(matrix1, matrix2, row1, column1);
 		if (option == 7) // subtraction (only with 2 matrices)
 			sub(matrix1, matrix2, row1, column1);
-		if (option == 8) // multiplication (only with 2 matrices)
-			mult(matrix1, matrix2, row1, column1);
+            	if (option == 8) // multiplication (only with 2 matrices)
+               		mult(matrix1, matrix2);
 	}
 
 	/* ALIGNMENT METHOD (except inverse)*/
@@ -250,18 +250,33 @@ public class Matrix {
 	}
 
 	/* MULTIPLCATION METHOD (for 2 matrices) */
-	public static void mult(int[][] matrix1, int[][] matrix2, int rows, int columns) {
-		int mult[][] = new int[rows][columns];
-		// multiplying matrices
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				mult[i][j] = matrix1[i][j] * matrix2[i][j];
-			}
-		}
-		// printing new matrix
-		System.out.println("Your new matrix: ");
-		alignMatrix(mult, mult.length, mult[0].length);
-	}
+        public static int[][] mult(int[][] matrix1, int[][] matrix2) 
+	{
+        	int m1ColLength = matrix1[0].length; 
+        	int m2RowLength = matrix2.length;
+		//if not possible
+        	if(m1ColLength != m2RowLength) 
+			return null; 
+		//else
+        	int mRRowLength = matrix1.length;    
+        	int mRColLength = matrix2[0].length;
+		//creating resultant matrix
+        	int[][] mResult = new int[mRRowLength][mRColLength]; 
+		//calculations
+        	for(int i = 0; i < mRRowLength; i++) 
+		{         
+            		for(int j = 0; j < mRColLength; j++) 
+			{    
+                		for(int k = 0; k < m1ColLength; k++) 
+				{ 
+                    			mResult[i][j] += matrix1[i][k] * matrix2[k][j];
+               	 		}
+            		}
+       		}
+        	System.out.println("Your new matrix: ");
+        	alignMatrix(mResult, mResult.length, mResult[0].length);
+        	return mResult;
+    	}
 
 	//// ALL INVERSE CODE ////
 	/* SECOND DETERMINANT METHOD (adjusts for double needed in inverse method) */
