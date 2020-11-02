@@ -34,7 +34,6 @@ public class Matrix {
 		}
 
 		// printing matrix 1
-		System.out.println("This matrix is:");
 		alignMatrix(matrix1, row1, column1);
 
 		System.out.println("---------");
@@ -65,7 +64,6 @@ public class Matrix {
 			}
 
 			// printing matrix 2
-			System.out.println("This matrix is:");
 			alignMatrix(matrix2, row2, column2);
 			System.out.println("---------");
 		}
@@ -133,18 +131,21 @@ public class Matrix {
 		}
             if (option == 5) // row-reduced echelon form
             {
-                    System.out.println("Pick a matrix.");
-                    int chosen = scan.nextInt();
-                    if (chosen == 1)
-                        rre(matrix1, row1, column1);
-                    if (chosen == 2)
-                        rre(matrix2, row2, column2);
+            	if (matrix2.length != 0 && matrix2[0].length != 0) {
+    				System.out.println("Pick a matrix.");
+    				int chosen = scan.nextInt();
+    				if (chosen == 1)
+    					rre(matrix1, row1, column1);
+    				if (chosen == 2)
+    					rre(matrix2, row2, column2);
+    			} else
+    				rre(matrix1, row1, column1);
             } 
 		if (option == 6) // addition (only with 2 matrices)
 			add(matrix1, matrix2, row1, column1);
             if (option == 7) // subtraction (only with 2 matrices)
             {
-                    System.out.println("Pick a matrix to subtract: 1 for (matrix1 - matrix2), 2 for (matrix2 - matrix1)");
+                    System.out.println("1) MATRIX1 - MATRIX2 \nOR\n2) MATRIX2 - MATRIX1");
                     int chosen = scan.nextInt();
                     if (chosen == 1)
                         sub1(matrix1,matrix2,row1,column1);
@@ -166,12 +167,12 @@ public class Matrix {
 				colWidths[c] = Math.max(colWidths[c], width);
 			}
 		}
-		
-		System.out.println("Your new matrix:");
+		System.out.println("\n---------");
+		System.out.println("Your matrix:");
 		for (int r = 0; r < rows; r++) {
 			for (int c = 0; c < columns; c++) {
 				// p1: % formatters, p2: spaces in front of each column, p3: full row, p4: moves to new line or adds space
-				String fmt = String.format("%s%%%dd%s", "", colWidths[c], c == columns - 1 ? "%n" : "   ");
+				String fmt = String.format("%s%%%dd%s", c == 0 ? "|" : "", colWidths[c], c == columns - 1 ? "|%n" : "   ");
 				System.out.printf(fmt, matrix[r][c]);
 			}
 		}
@@ -238,7 +239,6 @@ public class Matrix {
 			}
 		}
 		// printing new matrix
-		System.out.println("Your new matrix: ");
 		alignMatrix(add, add.length, add[0].length);
 	}
 
@@ -252,7 +252,6 @@ public class Matrix {
                 }
             }
             // printing new matrix
-            System.out.println("Your new matrix: ");
             alignMatrix(sub, sub.length, sub[0].length);
         }
         public static void sub2(int[][] matrix1, int[][] matrix2, int rows, int columns) {
@@ -264,19 +263,15 @@ public class Matrix {
                 }
             }
             // printing new matrix
-            System.out.println("Your new matrix: ");
             alignMatrix(sub, sub.length, sub[0].length);
         }
 
 	/* MULTIPLCATION METHOD (for 2 matrices) */
-        public static int[][] mult(int[][] matrix1, int[][] matrix2, int row1, int column1, int row2, int column2) 
+        public static void mult(int[][] matrix1, int[][] matrix2, int row1, int column1, int row2, int column2) 
 	{
 		int matrixrow = matrix1.length;    
         	int matrixcol = matrix2[0].length;
 		
-		//if not possible
-        	if(column1 != row2)
-			return null; 
 		//creating resultant matrix
         	int[][] matrixmult = new int[matrixrow][matrixcol]; 
 		//calculations
@@ -290,9 +285,7 @@ public class Matrix {
                	 		}
             		}
        		}
-        	System.out.println("Your new matrix: ");
         	alignMatrix(matrixmult, matrixmult.length, matrixmult[0].length);
-        	return matrixmult;
     	}
 
 	//// ALL INVERSE CODE ////
@@ -399,44 +392,52 @@ public class Matrix {
 	            String[] parts = String.valueOf(matrix[r][c]).split("\\."); // same as first loop
 	            int lp = lWidths[c] - parts[0].length(); // left 
 	            int rp = rWidths[c] - parts[1].length();
-	            String fmt = String.format("%s%%%ss%%s.%%s%%%ss%s",c != 0 ? "  " : "", lp == 0 ? "" : lp, rp == 0 ? "" : rp, c < columns - 1 ? "" : "%n");
+	            String fmt = String.format("%s%%%ss%%s.%%s%%%ss%s",c != 0 ? "  " : "|", lp == 0 ? "" : lp, rp == 0 ? "" : rp, c < columns - 1 ? "" : "|%n");
 	            System.out.printf(fmt, "", parts[0], parts[1], "");
 	        }
 	    }
 	}
 	
 	/* ROW REDUCED ECHELON FORM METHOD */
-	public static void rre(int[][] matrix, int rows, int columns) {
-		double[][] rre = new double[matrix.length][matrix[0].length];
+	public static void rre(int[][] matrix, int rows, int columns)
+    {
+        double[][] rre = new double[matrix.length][matrix[0].length];
 
-		for (int r = 0; r < rre.length; ++r) // matrix copying
-		{
-			for (int c = 0; c < rre[r].length; ++c) {
-				rre[r][c] = matrix[r][c];
-			}
-		}
+    for (int r = 0; r < rre.length; ++r) //matrix copying
+    {
+            for (int c = 0; c < rre[r].length; ++c)
+            {
+                rre[r][c] = matrix[r][c];
+            }
+    }
 
-		for (int p1 = 0; p1 < rre.length; ++p1) {
-			double pivot = rre[p1][p1]; // create pivot @ first index
-			if (pivot != 0) {
-				double pivot1 = 1.0 / pivot;
-				for (int i = 0; i < rre[p1].length; ++i) {
-					rre[p1][i] *= pivot1;
-				}
-			}
+    for (int p1 = 0; p1 < rre.length; ++p1)
+    {
+        double pivot = rre[p1][p1]; //create pivot @ first index
+        if (pivot != 0)
+        {
+            double pivot1 = 1.0 / pivot;
+            for (int i = 0; i < rre[p1].length; ++i)
+            {
+                rre[p1][i] *= pivot1;
+            }
+    }
 
-			for (int r = 0; r < rre.length; ++r) // zeroing rows
-			{
-				if (r != p1) {
-					double c = rre[r][p1];
-					for (int i = 0; i < rre[r].length; ++i) {
-						rre[r][i] -= c * rre[p1][i];
-					}
-				}
-			}
-		}
+    for (int r = 0; r < rre.length; ++r) //zeroing rows
+    {
+        if (r != p1)
+        {
+            double c = rre[r][p1];
+            for (int i = 0; i < rre[r].length; ++i)
+            {
+                rre[r][i] -= c * rre[p1][i];
+            }
+        }
+        }
+    }
 
-		alignInverse(rre, rre.length, rre[0].length);
-	}
+System.out.println("Your new matrix:");
+     alignInverse(rre, rre.length, rre[0].length);
+  }
 }
 // end of class
