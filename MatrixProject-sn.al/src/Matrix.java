@@ -142,8 +142,15 @@ public class Matrix {
             } 
 		if (option == 6) // addition (only with 2 matrices)
 			add(matrix1, matrix2, row1, column1);
-		if (option == 7) // subtraction (only with 2 matrices)
-			sub(matrix1, matrix2, row1, column1);
+            if (option == 7) // subtraction (only with 2 matrices)
+            {
+                    System.out.println("Pick a matrix to subtract: 1 for (matrix1 - matrix2), 2 for (matrix2 - matrix1)");
+                    int chosen = scan.nextInt();
+                    if (chosen == 1)
+                        sub1(matrix1,matrix2,row1,column1);
+                    if (chosen == 2)
+                        sub2(matrix1,matrix2,row1,column1);
+            } 
             	if (option == 8) // multiplication (only with 2 matrices)
                 	mult(matrix1, matrix2, row1, column1, row2, column2);
 	}
@@ -236,18 +243,30 @@ public class Matrix {
 	}
 
 	/* SUBTRACTION METHOD (for 2 matrices) */
-	public static void sub(int[][] matrix1, int[][] matrix2, int rows, int columns) {
-		int sub[][] = new int[rows][columns];
-		// subtracting matrices
-		for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < columns; j++) {
-				sub[i][j] = matrix1[i][j] - matrix2[i][j];
-			}
-		}
-		// printing new matrix
-		System.out.println("Your new matrix: ");
-		alignMatrix(sub, sub.length, sub[0].length);
-	}
+        public static void sub1(int[][] matrix1, int[][] matrix2, int rows, int columns) {
+            int sub[][] = new int[rows][columns];
+            // subtracting matrices
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < columns; j++) {
+                    sub[i][j] = matrix1[i][j] - matrix2[i][j];
+                }
+            }
+            // printing new matrix
+            System.out.println("Your new matrix: ");
+            alignMatrix(sub, sub.length, sub[0].length);
+        }
+        public static void sub2(int[][] matrix1, int[][] matrix2, int rows, int columns) {
+            int sub[][] = new int[rows][columns];
+            // subtracting matrices
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < columns; j++) {
+                    sub[i][j] = matrix2[i][j] - matrix1[i][j];
+                }
+            }
+            // printing new matrix
+            System.out.println("Your new matrix: ");
+            alignMatrix(sub, sub.length, sub[0].length);
+        }
 
 	/* MULTIPLCATION METHOD (for 2 matrices) */
         public static int[][] mult(int[][] matrix1, int[][] matrix2, int row1, int column1, int row2, int column2) 
