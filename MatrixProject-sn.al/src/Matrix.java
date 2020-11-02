@@ -145,7 +145,7 @@ public class Matrix {
 		if (option == 7) // subtraction (only with 2 matrices)
 			sub(matrix1, matrix2, row1, column1);
             	if (option == 8) // multiplication (only with 2 matrices)
-               		mult(matrix1, matrix2);
+                	mult(matrix1, matrix2, row1, column1, row2, column2);
 	}
 
 	/* ALIGNMENT METHOD (except inverse)*/
