@@ -159,6 +159,8 @@ public class Matrix {
 				colWidths[c] = Math.max(colWidths[c], width);
 			}
 		}
+		
+		System.out.println("Your new matrix:");
 		for (int r = 0; r < rows; r++) {
 			for (int c = 0; c < columns; c++) {
 				// p1: % formatters, p2: spaces in front of each column, p3: full row, p4: moves to new line or adds space
@@ -215,7 +217,7 @@ public class Matrix {
 				result[i][j] = matrix[j][i];
 		}
 		// prints matrix
-		System.out.println("Your new matrix:");
+		
 		alignMatrix(result, result.length, result[0].length);
 	}
 
@@ -332,7 +334,7 @@ public class Matrix {
 				}
 			}
 		}
-		System.out.println("Your new matrix:");
+		
 		alignInverse(inverse, inverse.length, inverse[0].length);
 	}
 	/* ALIGNMENT METHOD (for inverse) */
@@ -356,6 +358,8 @@ public class Matrix {
 	            rWidths[c] = Math.max(rWidths[c], parts[1].length());// compares # of digits in right side of decimal
 	        }
 	    }
+	    
+	    System.out.println("Your new matrix:");
 	    for (int r = 0; r < rows; r++) 
 	    {
 	        for (int c = 0; c < columns; c++) 
@@ -370,53 +374,37 @@ public class Matrix {
 	}
 	
 	/* ROW REDUCED ECHELON FORM METHOD */
-       public static int[][] rre(int[][] matrix, int rows, int columns)
-        {
-            int[][] rre = new int[matrix.length][matrix[0].length];
-    
-        for (int r = 0; r < rre.length; ++r) //matrix copying
-        {
-                for (int c = 0; c < rre[r].length; ++c)
-                {
-                    rre[r][c] = matrix[r][c];
-                }
-        }
-        
-        for (int p1 = 0; p1 < rre.length; ++p1)
-        {
-            double pivot = rre[p1][p1]; //create pivot @ first index
-            if (pivot != 0)
-            {
-                double pivot1 = 1.0 / pivot;
-                for (int i = 0; i < rre[p1].length; ++i)
-                {
-                    rre[p1][i] *= pivot1;
-                }
-        }
+	public static void rre(int[][] matrix, int rows, int columns) {
+		double[][] rre = new double[matrix.length][matrix[0].length];
 
-        for (int r = 0; r < rre.length; ++r) //zeroing rows
-        {
-            if (r != p1)
-            {
-                double c = rre[r][p1];
-                for (int i = 0; i < rre[r].length; ++i)
-                {
-                    rre[r][i] -= c * rre[p1][i];
-                }
-            }
-            }
-        }
-    
-	System.out.println("Your new matrix:");
-         for (int i = 0; i < rows; i++) 
-                {
-                    for(int j = 0; j < columns; j++) 
-                    {
-                        System.out.print((rre[i][j]) + " ");
-                    }
-                    System.out.println();
-                }
-         return rre;
-      }
+		for (int r = 0; r < rre.length; ++r) // matrix copying
+		{
+			for (int c = 0; c < rre[r].length; ++c) {
+				rre[r][c] = matrix[r][c];
+			}
+		}
+
+		for (int p1 = 0; p1 < rre.length; ++p1) {
+			double pivot = rre[p1][p1]; // create pivot @ first index
+			if (pivot != 0) {
+				double pivot1 = 1.0 / pivot;
+				for (int i = 0; i < rre[p1].length; ++i) {
+					rre[p1][i] *= pivot1;
+				}
+			}
+
+			for (int r = 0; r < rre.length; ++r) // zeroing rows
+			{
+				if (r != p1) {
+					double c = rre[r][p1];
+					for (int i = 0; i < rre[r].length; ++i) {
+						rre[r][i] -= c * rre[p1][i];
+					}
+				}
+			}
+		}
+
+		alignInverse(rre, rre.length, rre[0].length);
+	}
 }
 // end of class
